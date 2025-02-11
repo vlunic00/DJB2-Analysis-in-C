@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <string.h>
+#include <inttypes.h>
 #include <stdlib.h>
 #include <time.h>
 
-unsigned long djb2(char *input){
+uint32_t djb2(char *input){
 
-    unsigned long hash = 5381;
+    uint32_t hash = 5381;
 
     int c;
     while (c = *input++ ){
@@ -17,7 +18,7 @@ unsigned long djb2(char *input){
 int main(int argc, char *argv[])
 {
     char str1[100], str2[100];
-    unsigned long hash1, hash2;
+    uint32_t hash1, hash2;
 
     if(argc != 2){
         printf("Error: One argument is expected. Use test to test djb2's collision resistance, and any other string to find its hash.\n");
@@ -26,7 +27,7 @@ int main(int argc, char *argv[])
 
     if (strcmp(argv[1], "test")){
         hash1 = djb2(argv[1]);
-        printf("Resulting hash value: %d\n", hash1);
+        printf("Resulting hash value: %" PRIu32 "\n", hash1);
         return 0;
     }
     else{
@@ -47,8 +48,8 @@ int main(int argc, char *argv[])
                     end = clock();
                     time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
                     printf("Collision found!\n");
-                    printf("String 1: %s (Hash: %lu)", str1, hash1);
-                    printf("String 2: %s (Hash: %lu)", str2, hash2);
+                    printf("String 1: %s (Hash: %" PRIu32 ")", str1, hash1);
+                    printf("String 2: %s (Hash: %" PRIu32 ")", str2, hash2);
                     printf("Time taken to find collision: %f", time_used);
                     return 0;
                 }
